@@ -211,7 +211,7 @@
   function fit() {
     var W = stage.clientWidth; if (!W) return;
     var n = W < NARROW_AT;
-    if (n !== narrow) { narrow = n; root.classList.toggle('is-narrow', n); }
+    if (n !== narrow) { narrow = n; root.classList.toggle('is-narrow', n); viewHint(); }
     var w = canvas.offsetWidth, h = canvas.offsetHeight;
     var s = Math.min(narrow ? (view === 'phone' ? 1.25 : 1.35) : 1, W / w);
     canvas.style.transform = 'translate(' + Math.max(0, (W - w * s) / 2) + 'px,0) scale(' + s + ')';
@@ -221,8 +221,26 @@
     view = v; root.setAttribute('data-show', v);
     root.querySelectorAll('#d-views button').forEach(function (b) { b.setAttribute('aria-selected', b.getAttribute('data-show') === v ? 'true' : 'false'); });
     var badge = $('d-vb-' + v); badge.classList.remove('on'); badge.textContent = '';
+    viewHint();
     if (user) track('trial_demo_view', { demo_view: v });
     fit();
+  }
+  // When the visitor switches to the device that has nothing to do yet, tell them where the next step is
+  var NAMES = { web: 'Web app', phone: 'Mobile app' };
+  function viewHint() {
+    var step = typeof curStep === 'number' ? curStep : 0;
+    var active = step === 0 ? 'web' : step <= 3 ? 'phone' : null;
+    var off = narrow && active && view !== active;
+    var h = $('d-vhint');
+    h.hidden = !off;
+    // nothing can be done on the phone before a turf exists, so dim it; the web map stays live for watching
+    root.classList.toggle('is-idle', !!off && active === 'web');
+    root.querySelectorAll('#d-views button').forEach(function (b) { b.classList.toggle('is-next', !!off && b.getAttribute('data-show') === active); });
+    if (off) {
+      $('d-vhint-t').textContent = active === 'web' ? 'Nothing here yet. Start by drawing a turf on the Web app.' : 'Your next step is on the Mobile app.';
+      $('d-vhint-go').textContent = 'Go to ' + NAMES[active] + ' \u2192';
+      $('d-vhint-go').onclick = function () { setView(active, true); };
+    }
   }
   function nudgeView(v) { if (!narrow || view === v) return; var b = $('d-vb-' + v); b.textContent = String((parseInt(b.textContent, 10) || 0) + 1); b.classList.add('on'); }
   root.querySelectorAll('#d-views button').forEach(function (b) { b.addEventListener('click', function () { setView(b.getAttribute('data-show'), true); }); });
@@ -230,7 +248,7 @@
 
   function setStep(n) {
     setView(n === 0 ? 'web' : 'phone');
-    curStep = n; $('d-back').hidden = n === 0;
+    curStep = n; $('d-back').hidden = n === 0; viewHint();
     $('d-num').textContent = n + 1;
     var t = $('d-t'), s = $('d-s');
     var nm = firstName();
@@ -641,7 +659,7 @@
     $('d-done-h').textContent = name ? 'Nice work, ' + name + '. That\'s a day in the field.' : 'That\'s a day in the field.';
     $('d-done-p').textContent = 'Turf drawn, route planned, doors logged, all on your live map as it happened. Here\'s what that looks like for your team:';
     $('d-b2').textContent = '0'; $('d-b1').textContent = '0'; $('d-b3').textContent = '0';
-    $('d-done').classList.add('on'); curStep = 4;
+    $('d-done').classList.add('on'); curStep = 4; viewHint();
     $('d-num').textContent = '✓'; $('d-t').textContent = 'Demo complete'; $('d-s').textContent = 'Now try it with your own area and team.';
     animateCount($('d-b1'), reps * 90 * 5, 1200);
     animateCount($('d-b2'), reps, 900);
