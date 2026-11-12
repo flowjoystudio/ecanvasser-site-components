@@ -442,7 +442,7 @@
 #ec-demo .d-done h3 { margin: 0; font-size: 1.75rem; line-height: 1.2; letter-spacing: -.02em; font-weight: 800; }
 #ec-demo .d-done p { margin: .625rem 0 0; color: var(--mut); font-size: 1rem; line-height: 1.5; }
 #ec-demo .d-big { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin: 1.5rem 0; }
-#ec-demo .d-big div { background: #f3f9f6; border-radius: .75rem; padding: .75rem .5rem; font-size: .75rem; color: var(--mut); }
+#ec-demo .d-big div { background: #f4f5f7; border-radius: .75rem; padding: .75rem .5rem; font-size: .75rem; color: var(--mut); display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.3; }
 #ec-demo .d-big strong { display: block; font-size: 1.5rem; font-weight: 800; color: var(--n); font-variant-numeric: tabular-nums; }
 #ec-demo .d-done-actions { display: flex; gap: .625rem; justify-content: center; flex-wrap: wrap; }
 #ec-demo .d-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 3.25rem; padding: 0 1.5rem; border-radius: .75rem; background: var(--g); color: #fff;
