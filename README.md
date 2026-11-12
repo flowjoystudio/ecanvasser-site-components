@@ -44,6 +44,7 @@ Rolling back = put the previous hash/tag back in the embed.
 | v1.3.0 | `2e74a2033a69e429e0c7efeb87f7938a3c5b7d69` | Narrow screens: prompt + dimming when viewing the device with nothing to do |
 | v1.4.0 | `86cd82aa2d2215d2be7fddd1bc7071c55018b9c4` | Narrow screens: prompt bar removed; cyan pulse on the tab with the next step |
 | v1.4.1 | `34f1464d3ac72dd56b3102092486b6f67870ca77` | Narrow screens: no fade on the idle device |
+| v1.4.2 | `7ab2c82589b0993eb0cc665c75abc2849a199b29` | Device shadows no longer clipped; still images regenerated |
 
 ## Responsive behaviour
 
