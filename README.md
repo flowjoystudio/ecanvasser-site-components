@@ -50,6 +50,7 @@ Rolling back = put the previous hash/tag back in the embed.
 | v1.4.5 | `ae754b38d3dd11a102563f9653a5d5d5fbd40328` | Step one prompt replaced by a looping cyan polygon being clicked out on the map (polygon mode); prompt comes back after Cancel; stills show the finished shape |
 | v1.4.6 | `310f3ca562481021df8c268ab4c663873bead731` | Free Draw version of the step one prompt (a loop drawn with a dot following); optional company logo on the phone from the work email via Brandfetch, switched on by data-brandfetch-id on the loader |
 | v1.4.7 | `57c2790c7d41e5c8cad6e5aff8c2b7c4ac31ef4f` | Company branding on the desktop sidebar as well as the phone: full logo for dark backgrounds, else icon + company name, else Ecanvasser |
+| v1.4.8 | `ccc0fb4380ef6486e11cf44ae0a0c7a875c13b4b` | Desktop company logo sits on a white tile (Brandfetch "dark" logos are dark-coloured and vanished on the navy sidebar) |
 
 ## Responsive behaviour
 
