@@ -39,7 +39,6 @@
 /* narrow containers: one device at a time, switched automatically by step */
 #ec-demo.is-narrow .d-views { display: flex; }
 #ec-demo .d-views button.is-next { animation: dCta 1.4s ease-out infinite; color: var(--n); }
-#ec-demo.is-narrow.is-idle .d-canvas .d-phone, #ec-demo.is-narrow.is-idle .d-canvas .d-laptop { opacity: .45; pointer-events: none; filter: saturate(.6); transition: opacity .25s; }
 #ec-demo.is-narrow .d-canvas { width: auto; padding: 1.5rem 1.25rem 2.25rem; }
 #ec-demo.is-narrow[data-show="web"] .d-phone, #ec-demo.is-narrow[data-show="phone"] .d-laptop { display: none; }
 #ec-demo.is-narrow .d-laptop { flex: none; width: 28rem; max-width: none; }

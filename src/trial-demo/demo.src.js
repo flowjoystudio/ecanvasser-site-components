@@ -230,8 +230,6 @@
     var step = typeof curStep === 'number' ? curStep : 0;
     var active = step === 0 ? 'web' : step <= 3 ? 'phone' : null;
     var off = narrow && active && view !== active;
-    // nothing can be done on the phone before a turf exists, so dim it; the web map stays live for watching
-    root.classList.toggle('is-idle', !!off && active === 'web');
     // pulse the tab where the next step is, the same way other prompts pulse
     root.querySelectorAll('#d-views button').forEach(function (b) { b.classList.toggle('is-next', !!off && b.getAttribute('data-show') === active); });
   }
