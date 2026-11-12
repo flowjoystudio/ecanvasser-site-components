@@ -49,19 +49,41 @@
     var dom = parts.slice(-n).join('.');
     return FREE_MAIL.test(dom) ? '' : dom;
   }
-  function paintLogo() {
-    var hi = root.querySelector('.m-hi'), old = root.querySelector('.m-logo-co');
-    if (old) old.parentNode.removeChild(old);
-    hi.classList.remove('has-co');
-    var dom = BF_ID && companyDomain(A.email);
-    if (!dom) return;
-    var img = new Image();
-    img.className = 'm-logo-co'; img.alt = ''; img.decoding = 'async';
-    img.onload = function () { hi.classList.add('has-co'); };
-    img.onerror = function () { if (img.parentNode) img.parentNode.removeChild(img); };
-    img.src = 'https://cdn.brandfetch.io/domain/' + encodeURIComponent(dom) + '/fallback/404/icon?c=' + encodeURIComponent(BF_ID);
-    hi.appendChild(img);
+  function bfUrl(dom, path) { return 'https://cdn.brandfetch.io/domain/' + encodeURIComponent(dom) + '/' + path + '?c=' + encodeURIComponent(BF_ID); }
+  function loadImg(cls, src, ok, fail) {
+    var img = new Image(); img.className = cls; img.alt = ''; img.decoding = 'async';
+    img.onload = function () { ok(img); }; img.onerror = function () { fail(); }; img.src = src;
   }
+  function coName(dom) { // acme-widgets.co.uk -> Acme Widgets
+    return dom.split('.')[0].split(/[-_]+/).filter(Boolean).map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
+  }
+  // Branded plans show the customer's logo in both apps; mirror that here.
+  function paintLogo() {
+    var hi = root.querySelector('.m-hi'), side = root.querySelector('.d-logo');
+    root.querySelectorAll('.m-logo-co, .d-logo-co').forEach(function (e) { e.parentNode.removeChild(e); });
+    hi.classList.remove('has-co'); side.classList.remove('has-co');
+    var dom = BF_ID && companyDomain(A.email), run = gen;
+    if (!dom) return;
+    // Phone: square icon
+    loadImg('m-logo-co', bfUrl(dom, 'fallback/404/icon'), function (img) {
+      if (run !== gen) return; hi.appendChild(img); hi.classList.add('has-co');
+    }, function () {});
+    // Desktop: full logo for dark backgrounds, else icon + name, else keep Ecanvasser
+    function useIcon() {
+      loadImg('', bfUrl(dom, 'fallback/404/icon'), function (img) {
+        if (run !== gen) return;
+        var box = document.createElement('div'); box.className = 'd-logo-co is-icon';
+        var nm = document.createElement('span'); nm.textContent = coName(dom);
+        box.appendChild(img); box.appendChild(nm); side.appendChild(box); side.classList.add('has-co');
+      }, function () {});
+    }
+    loadImg('', bfUrl(dom, 'theme/dark/fallback/404/logo'), function (img) {
+      if (run !== gen) return;
+      var box = document.createElement('div'); box.className = 'd-logo-co';
+      box.appendChild(img); side.appendChild(box); side.classList.add('has-co');
+    }, useIcon);
+  }
+
   function firstName() {
     var n = String(A.firstname || '').trim().split(/\s+/)[0];
     return n ? n.charAt(0).toUpperCase() + n.slice(1) : '';
