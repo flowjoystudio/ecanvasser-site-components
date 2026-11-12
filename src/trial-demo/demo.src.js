@@ -226,21 +226,14 @@
     fit();
   }
   // When the visitor switches to the device that has nothing to do yet, tell them where the next step is
-  var NAMES = { web: 'Web app', phone: 'Mobile app' };
   function viewHint() {
     var step = typeof curStep === 'number' ? curStep : 0;
     var active = step === 0 ? 'web' : step <= 3 ? 'phone' : null;
     var off = narrow && active && view !== active;
-    var h = $('d-vhint');
-    h.hidden = !off;
     // nothing can be done on the phone before a turf exists, so dim it; the web map stays live for watching
     root.classList.toggle('is-idle', !!off && active === 'web');
+    // pulse the tab where the next step is, the same way other prompts pulse
     root.querySelectorAll('#d-views button').forEach(function (b) { b.classList.toggle('is-next', !!off && b.getAttribute('data-show') === active); });
-    if (off) {
-      $('d-vhint-t').textContent = active === 'web' ? 'Nothing here yet. Start by drawing a turf on the Web app.' : 'Your next step is on the Mobile app.';
-      $('d-vhint-go').textContent = 'Go to ' + NAMES[active] + ' \u2192';
-      $('d-vhint-go').onclick = function () { setView(active, true); };
-    }
   }
   function nudgeView(v) { if (!narrow || view === v) return; var b = $('d-vb-' + v); b.textContent = String((parseInt(b.textContent, 10) || 0) + 1); b.classList.add('on'); }
   root.querySelectorAll('#d-views button').forEach(function (b) { b.addEventListener('click', function () { setView(b.getAttribute('data-show'), true); }); });
