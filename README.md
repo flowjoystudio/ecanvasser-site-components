@@ -40,6 +40,13 @@ Rolling back = put the previous hash/tag back in the embed.
 |---|---|---|
 | v1.0.0 | `64054ce2d6340eb4ce0cf27505ab43fb0f4f83f3` | First release: trial page demo (desktop layout) |
 
+## Responsive behaviour
+
+- The demo measures its own container (not the window), so it behaves the same in any Webflow column.
+- **900px and wider:** desktop and phone side by side, scaled down proportionally to fit.
+- **Under 900px:** one device at a time, with a "Web app / Mobile app" switch. It changes automatically with each step; a red badge on the other tab shows when something has changed there (e.g. a door logged on the web map).
+- Still images: `poster.webp` (wide) and `poster-mobile.webp` (narrow). Regenerate after visual changes: `npm run build && python3 test/posters.py`.
+
 ## How the loader works
 
 - The embed contains a `#ec-demo` container showing a static poster image (same size as the demo, so nothing jumps), plus a small script.

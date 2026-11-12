@@ -205,7 +205,31 @@
     ['Knock some doors', 'Pick an outcome and hit Save. Watch the pin change on your map.']
   ];
   var fast = false, gen = 0, curStep = 0, savedPts = null;
+  // ---------- Fit to container: scale the devices, or show one at a time when narrow ----------
+  var stage = $('d-stage'), canvas = $('d-canvas'), narrow = false, view = 'web';
+  var NARROW_AT = 900;
+  function fit() {
+    var W = stage.clientWidth; if (!W) return;
+    var n = W < NARROW_AT;
+    if (n !== narrow) { narrow = n; root.classList.toggle('is-narrow', n); }
+    var w = canvas.offsetWidth, h = canvas.offsetHeight;
+    var s = Math.min(narrow ? (view === 'phone' ? 1.25 : 1.35) : 1, W / w);
+    canvas.style.transform = 'translate(' + Math.max(0, (W - w * s) / 2) + 'px,0) scale(' + s + ')';
+    stage.style.height = Math.ceil(h * s) + 'px';
+  }
+  function setView(v, user) {
+    view = v; root.setAttribute('data-show', v);
+    root.querySelectorAll('#d-views button').forEach(function (b) { b.setAttribute('aria-selected', b.getAttribute('data-show') === v ? 'true' : 'false'); });
+    var badge = $('d-vb-' + v); badge.classList.remove('on'); badge.textContent = '';
+    if (user) track('trial_demo_view', { demo_view: v });
+    fit();
+  }
+  function nudgeView(v) { if (!narrow || view === v) return; var b = $('d-vb-' + v); b.textContent = String((parseInt(b.textContent, 10) || 0) + 1); b.classList.add('on'); }
+  root.querySelectorAll('#d-views button').forEach(function (b) { b.addEventListener('click', function () { setView(b.getAttribute('data-show'), true); }); });
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(stage); else window.addEventListener('resize', fit);
+
   function setStep(n) {
+    setView(n === 0 ? 'web' : 'phone');
     curStep = n; $('d-back').hidden = n === 0;
     $('d-num').textContent = n + 1;
     var t = $('d-t'), s = $('d-s');
@@ -337,7 +361,7 @@
   function fly(fromEl, toEl, cb) {
     var dot = $('d-sync'), st = $('d-stage').getBoundingClientRect();
     var a = fromEl.getBoundingClientRect(), b = toEl.getBoundingClientRect();
-    if (reduce || fast || !dot.animate) return cb && cb();
+    if (reduce || fast || narrow || !dot.animate) return cb && cb();
     var ax = a.left + a.width / 2 - st.left, ay = a.top + a.height / 2 - st.top;
     var bx = b.left + b.width / 2 - st.left, by = b.top + b.height / 2 - st.top;
     dot.style.opacity = 1;
@@ -598,6 +622,7 @@
     feed.insertBefore(t, feed.firstChild);
     while (feed.children.length > 3) feed.removeChild(feed.lastChild);
     fly(btn, s.g, null);
+    nudgeView('web');
     logged++;
     if (o.win) wins++;
     $('d-t2').textContent = logged; $('d-t3').textContent = Math.round(wins / logged * 100) + '%';
@@ -691,4 +716,5 @@
 
   icons();
   reset();
+  fit();
 })();

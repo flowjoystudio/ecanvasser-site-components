@@ -6,7 +6,12 @@
     <div class="d-nav-r"><button type="button" class="d-back" id="d-back" hidden><span class="mi">arrow_back</span>Back a step</button><div class="d-dots" aria-hidden="true"><i class="d-dot"></i><i class="d-dot"></i><i class="d-dot"></i><i class="d-dot"></i></div></div>
   </div>
 
+  <div class="d-views" id="d-views" role="tablist" aria-label="Switch device">
+    <button type="button" role="tab" data-show="web" aria-selected="true">Web app<i class="d-vbadge" id="d-vb-web"></i></button>
+    <button type="button" role="tab" data-show="phone" aria-selected="false">Mobile app<i class="d-vbadge" id="d-vb-phone"></i></button>
+  </div>
   <div class="d-stage" id="d-stage">
+   <div class="d-canvas" id="d-canvas">
     <!-- Desktop: Ecanvasser web app -->
     <div class="d-laptop">
       <div class="d-device">
@@ -127,6 +132,7 @@
       </div>
     </div>
 
+   </div>
     <span class="d-sync" id="d-sync"></span>
 
     <!-- Payoff -->
