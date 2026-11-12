@@ -1,8 +1,8 @@
 <!-- Ecanvasser trial demo: paste into ONE Webflow Code Embed where the demo should appear.
-     To release a new version: change VERSION below, then publish the site. -->
+     To release a new version: set VERSION to the new commit hash (or tag) from the repo, then publish the site. -->
 <div id="ec-demo" class="is-loading" data-signup-anchor="#start">
   <a class="ec-demo-poster" href="#start" aria-label="Start your free trial">
-    <img src="https://cdn.jsdelivr.net/gh/flowjoystudio/ecanvasser-site-components@v1.0.0/dist/img/poster.webp"
+    <img src="https://cdn.jsdelivr.net/gh/flowjoystudio/ecanvasser-site-components@64054ce2d6340eb4ce0cf27505ab43fb0f4f83f3/dist/img/poster.webp"
          width="1440" height="820" loading="lazy" decoding="async" alt="Ecanvasser on desktop and mobile: draw a turf, plan the route, log doors">
   </a>
 </div>
@@ -12,7 +12,7 @@
 </style>
 <script>
 (function () {
-  var VERSION = 'v1.0.0';
+  var VERSION = '64054ce2d6340eb4ce0cf27505ab43fb0f4f83f3'; // commit with the built dist/ files
   var BASE = 'https://cdn.jsdelivr.net/gh/flowjoystudio/ecanvasser-site-components@' + VERSION + '/dist/';
   var el = document.getElementById('ec-demo');
   if (!el) return;

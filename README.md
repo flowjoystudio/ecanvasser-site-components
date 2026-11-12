@@ -26,13 +26,19 @@ npm run serve        # then open http://localhost:8080/test/trial-demo.html
 
 ## Releasing
 
-1. `npm run build` and commit `dist/` (jsDelivr serves the committed files).
-2. Tag the release: `git tag v1.0.1 && git push --tags`
-3. In Webflow, change `VERSION` in the trial page's code embed to the new tag and publish.
+1. `npm run build` and commit `dist/` (jsDelivr serves the committed files). Push to `main`.
+2. Copy that commit's full hash (or tag it, e.g. `v1.0.1`, via GitHub → Releases → Draft a new release).
+3. In Webflow, set `VERSION` in the trial page's code embed to the hash or tag (it's also in the poster `src`) and publish.
 
-Rolling back = put the previous tag back in the embed.
+Rolling back = put the previous hash/tag back in the embed.
 
-**Always reference a version tag** (`@v1.0.1`), never a branch (`@main`): tagged files are cached for a year and never change; branch files are cached for 12 hours, so updates appear unpredictably.
+**Always reference a commit hash or tag**, never a branch (`@main`): those files are cached for a year and never change; branch files are cached for 12 hours, so updates appear unpredictably.
+
+### Release log
+
+| Version | Commit | Notes |
+|---|---|---|
+| v1.0.0 | `64054ce2d6340eb4ce0cf27505ab43fb0f4f83f3` | First release: trial page demo (desktop layout) |
 
 ## How the loader works
 
