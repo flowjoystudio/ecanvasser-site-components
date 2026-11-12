@@ -52,12 +52,15 @@
   }
 
   // ---------- Illustrated avatars (show where profile pictures appear) ----------
-  var PHOTO = { rep: '' + ASSETS + 'img/rep.jpg', me: '' + ASSETS + 'img/me.jpg' };
-  var PEEPS = { rep: 'rep', me: 'me' };
+  var PHOTO = { rep: '' + ASSETS + 'img/rep.jpg' };
+  var PEEPS = { rep: 'rep' };
   function peep(p) { return '<img src="' + PHOTO[p] + '" alt="" style="display:block;width:100%;height:100%;border-radius:999px;object-fit:cover">'; }
   function paintAvatars() {
     root.querySelectorAll('.m-me, .d-livecard .d-av').forEach(function (e) { e.innerHTML = peep(PEEPS.rep); e.classList.add('is-photo'); });
-    var me = $('d-meav'); me.innerHTML = peep(PEEPS.me); me.classList.add('is-photo');
+    // The visitor: their initial, or a plain person icon if we don't know their name
+    var me = $('d-meav'), n = firstName();
+    me.classList.remove('is-photo'); me.classList.toggle('is-initial', !!n);
+    me.innerHTML = n ? n.charAt(0).toUpperCase() : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + ICONS.person + '"/></svg>';
   }
 
   // ---------- Outcomes (names and codes as in the app) ----------
@@ -299,7 +302,10 @@
     drawPoly();
     if (pts.length >= 14) closePoly();
   }
+  // Step one: pulse the map and "Draw it for me" until the visitor starts
+  function prompt(on) { root.querySelector('.d-mapwrap').classList.toggle('is-prompt', on); }
   function closePoly() {
+    prompt(false);
     closed = true; drawPoly(); select(); hint(''); $('d-modes').classList.add('locked');
     if (selected.length < 6) {
       say('That turf has too few houses. Try a bigger area.');
@@ -316,6 +322,7 @@
   map.addEventListener('dblclick', function (e) { e.preventDefault(); if (mode === 'poly' && drawEnabled && !closed && pts.length >= 3) closePoly(); });
   // Free draw: hold and drag a loop, release to close it
   var freeing = false;
+  map.addEventListener('pointerdown', function () { if (drawEnabled) prompt(false); });
   map.addEventListener('pointerdown', function (e) {
     if (mode !== 'free' || !drawEnabled || closed) return;
     freeing = true; map.setPointerCapture(e.pointerId);
@@ -355,7 +362,7 @@
   }
 
   $('d-auto').addEventListener('click', function (e) {
-    e.stopPropagation();
+    e.stopPropagation(); prompt(false);
     if (closed) return;
     setMode('poly');
     var AUTO = [[255, 150], [470, 128], [610, 185], [590, 375], [410, 425], [235, 355]];
@@ -680,7 +687,7 @@
     var me = firstName(); $('d-me').textContent = me || 'You'; paintAvatars();
     buildMap();
     pts = []; closed = false; selected = []; stops = []; pdots = []; logged = 0; wins = 0; drawEnabled = true; choice = null;
-    map.classList.add('drawable'); root.classList.remove('is-live');
+    map.classList.add('drawable'); root.classList.remove('is-live'); prompt(true);
     $('d-modes').classList.remove('locked'); setMode('poly');
     $('d-count').classList.remove('show'); $('d-homes').textContent = '0'; $('d-contacts').textContent = '0';
     $('d-t2').textContent = '0'; $('d-t3').textContent = '0%';

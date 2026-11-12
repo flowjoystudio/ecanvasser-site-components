@@ -83,11 +83,17 @@
 #ec-demo .d-sf-row .mi { font-size: 16px; color: #9a9db0; }
 #ec-demo .is-photo { padding: 0 !important; overflow: hidden; background: none !important; }
 #ec-demo .d-sf-av.is-photo { border: 1.5px solid #5a5f78; }
+#ec-demo .d-sf-av.is-initial { background: var(--g); border-color: var(--g); font-size: 9px; }
+#ec-demo .d-sf-av svg { width: 70%; height: 70%; fill: #c9ccd8; }
 #ec-demo .m-me.is-photo, #ec-demo .d-av.is-photo { box-shadow: 0 0 0 1.5px #fff; }
 #ec-demo .d-sf-av { flex: none; width: 1.25rem; height: 1.25rem; margin: 0 -.125rem; border-radius: 999px; background: #3a3f55; border: 1px solid #5a5f78; color: #fff; font-size: 7.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
 
 /* map */
 #ec-demo .d-mapwrap { position: relative; flex: 1; min-width: 0; background: #f3f3f1; }
+/* Step one prompt: cyan ring pulsing in from the map edge, plus "Draw it for me" */
+#ec-demo .d-mapwrap.is-prompt::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 3; border: 2px solid var(--c); animation: dRing 1.4s ease-out infinite; }
+#ec-demo .d-mapwrap.is-prompt .d-auto { animation: dCta 1.4s ease-out infinite; }
+@keyframes dRing { 0% { box-shadow: inset 0 0 0 0 rgba(82,190,214,.7); } 70% { box-shadow: inset 0 0 0 14px rgba(82,190,214,0); } 100% { box-shadow: inset 0 0 0 0 rgba(82,190,214,0); } }
 #ec-demo svg.d-map { display: block; width: 100%; height: 100%; touch-action: none; user-select: none; -webkit-user-select: none; }
 #ec-demo svg.d-map.drawable { cursor: crosshair; }
 #ec-demo .d-pin { transition: transform .25s; }
