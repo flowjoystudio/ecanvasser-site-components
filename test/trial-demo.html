@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test: trial demo (local build)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:Inter,sans-serif;color:#0d1329}.wrap{max-width:72rem;margin:0 auto;padding:2rem 1.5rem 4rem}
+.pv{display:flex;gap:.5rem;flex-wrap:wrap;font-size:.8125rem;align-items:center;margin-bottom:1rem}.pv button{color:#0d1329;font:inherit;padding:.375rem .75rem;border-radius:.5rem;border:1px solid rgba(13,19,41,.18);background:#fff;cursor:pointer}.pv button.on{background:#0d1329!important;color:#fff!important}
+.spacer{height:120vh;display:flex;align-items:center;color:#888}</style></head>
+<body><div class="wrap">
+<div class="pv"><span>Preview as:</span><button type="button" data-pv="Aoife|0-10">Aoife, up to 10 reps</button><button type="button" data-pv="Sam|21-50">Sam, 21 to 50 reps</button><button type="button" data-pv="|">No answers</button></div>
+<div class="spacer">(page content above the demo — it loads as you scroll near it)</div>
+<!-- Ecanvasser trial demo: paste into ONE Webflow Code Embed where the demo should appear.
+     To release a new version: change VERSION below, then publish the site. -->
+<div id="ec-demo" class="is-loading" data-signup-anchor="#start" data-ec-base="../dist/">
+  <a class="ec-demo-poster" href="#start" aria-label="Start your free trial">
+    <img src="../dist/img/poster.webp"
+         width="1440" height="820" loading="lazy" decoding="async" alt="Ecanvasser on desktop and mobile: draw a turf, plan the route, log doors">
+  </a>
+</div>
+<style>
+  #ec-demo.is-loading .ec-demo-poster { display: block; max-width: 72rem; margin: 0 auto; }
+  #ec-demo.is-loading .ec-demo-poster img { display: block; width: 100%; height: auto; }
+</style>
+<script>
+(function () {
+  var VERSION = 'v1.0.0';
+  var BASE = 'https://cdn.jsdelivr.net/gh/flowjoystudio/ecanvasser-site-components@' + VERSION + '/dist/';
+  var el = document.getElementById('ec-demo');
+  if (!el) return;
+  if (el.getAttribute('data-ec-base')) BASE = el.getAttribute('data-ec-base'); // local testing only
+  var started = false;
+  function load() {
+    if (started) return; started = true;
+    var css = document.createElement('link');
+    css.rel = 'stylesheet'; css.href = BASE + 'trial-demo.css';
+    css.onload = function () {
+      var js = document.createElement('script');
+      js.src = BASE + 'trial-demo.js'; js.async = true;
+      document.body.appendChild(js);
+    };
+    document.head.appendChild(css); // if anything fails, the poster simply stays (it links to the sign-up)
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) { io.disconnect(); load(); }
+    }, { rootMargin: '800px 0px' }); // start loading about one screen before it's visible
+    io.observe(el);
+  } else { load(); }
+})();
+</script>
+
+<div class="spacer" id="start">#start — sign-up section</div>
+</div></body></html>

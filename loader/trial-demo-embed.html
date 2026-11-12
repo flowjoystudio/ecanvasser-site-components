@@ -1,0 +1,39 @@
+<!-- Ecanvasser trial demo: paste into ONE Webflow Code Embed where the demo should appear.
+     To release a new version: change VERSION below, then publish the site. -->
+<div id="ec-demo" class="is-loading" data-signup-anchor="#start">
+  <a class="ec-demo-poster" href="#start" aria-label="Start your free trial">
+    <img src="https://cdn.jsdelivr.net/gh/flowjoystudio/ecanvasser-site-components@v1.0.0/dist/img/poster.webp"
+         width="1440" height="820" loading="lazy" decoding="async" alt="Ecanvasser on desktop and mobile: draw a turf, plan the route, log doors">
+  </a>
+</div>
+<style>
+  #ec-demo.is-loading .ec-demo-poster { display: block; max-width: 72rem; margin: 0 auto; }
+  #ec-demo.is-loading .ec-demo-poster img { display: block; width: 100%; height: auto; }
+</style>
+<script>
+(function () {
+  var VERSION = 'v1.0.0';
+  var BASE = 'https://cdn.jsdelivr.net/gh/flowjoystudio/ecanvasser-site-components@' + VERSION + '/dist/';
+  var el = document.getElementById('ec-demo');
+  if (!el) return;
+  if (el.getAttribute('data-ec-base')) BASE = el.getAttribute('data-ec-base'); // local testing only
+  var started = false;
+  function load() {
+    if (started) return; started = true;
+    var css = document.createElement('link');
+    css.rel = 'stylesheet'; css.href = BASE + 'trial-demo.css';
+    css.onload = function () {
+      var js = document.createElement('script');
+      js.src = BASE + 'trial-demo.js'; js.async = true;
+      document.body.appendChild(js);
+    };
+    document.head.appendChild(css); // if anything fails, the poster simply stays (it links to the sign-up)
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) { io.disconnect(); load(); }
+    }, { rootMargin: '800px 0px' }); // start loading about one screen before it's visible
+    io.observe(el);
+  } else { load(); }
+})();
+</script>
