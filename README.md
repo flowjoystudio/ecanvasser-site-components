@@ -47,6 +47,7 @@ Rolling back = put the previous hash/tag back in the embed.
 | v1.4.2 | `7ab2c82589b0993eb0cc665c75abc2849a199b29` | Device shadows no longer clipped; still images regenerated |
 | v1.4.3 | `17046d13e322f52b28de79238aa3b1541a90adf0` | Visitor avatar shows their initial (or a person icon); step one pulses the map and "Draw it for me" |
 | v1.4.4 | `2c4fc339c1eff47d4b91f39c1d20554ba73afd27` | Step one map prompt: solid cyan ring inside the map, under the controls (fixed an animation name clash that made it vanish) |
+| v1.4.5 | `ae754b38d3dd11a102563f9653a5d5d5fbd40328` | Step one prompt replaced by a looping cyan polygon being clicked out on the map (polygon mode); prompt comes back after Cancel; stills show the finished shape |
 
 ## Responsive behaviour
 
