@@ -68,7 +68,7 @@
     loadImg('m-logo-co', bfUrl(dom, 'fallback/404/icon'), function (img) {
       if (run !== gen) return; hi.appendChild(img); hi.classList.add('has-co');
     }, function () {});
-    // Desktop: full logo for dark backgrounds, else icon + name, else keep Ecanvasser
+    // Desktop: full logo on a white tile (works for any brand colours), else icon + name, else keep Ecanvasser
     function useIcon() {
       loadImg('', bfUrl(dom, 'fallback/404/icon'), function (img) {
         if (run !== gen) return;
@@ -77,7 +77,7 @@
         box.appendChild(img); box.appendChild(nm); side.appendChild(box); side.classList.add('has-co');
       }, function () {});
     }
-    loadImg('', bfUrl(dom, 'theme/dark/fallback/404/logo'), function (img) {
+    loadImg('', bfUrl(dom, 'fallback/404/logo'), function (img) {
       if (run !== gen) return;
       var box = document.createElement('div'); box.className = 'd-logo-co';
       box.appendChild(img); side.appendChild(box); side.classList.add('has-co');

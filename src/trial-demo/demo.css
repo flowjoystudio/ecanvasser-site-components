@@ -72,7 +72,8 @@
 #ec-demo .d-logo svg { width: 7.5rem; height: auto; display: block; }
 #ec-demo .d-logo.has-co svg { display: none; }
 #ec-demo .d-logo-co { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; width: 7.5rem; min-height: 3.75rem; }
-#ec-demo .d-logo-co img { display: block; max-width: 100%; max-height: 3.75rem; object-fit: contain; }
+#ec-demo .d-logo-co:not(.is-icon) { min-height: 0; padding: .625rem .75rem; background: #fff; border-radius: .75rem; box-sizing: border-box; }
+#ec-demo .d-logo-co img { display: block; max-width: 100%; max-height: 2.5rem; object-fit: contain; }
 #ec-demo .d-logo-co.is-icon img { width: 2.75rem; height: 2.75rem; border-radius: .625rem; background: #fff; }
 #ec-demo .d-logo-co span { color: #fff; font-size: 15px; font-weight: 700; text-align: center; line-height: 1.2; }
 #ec-demo .d-nav-h { flex: none; font-size: 10px; font-weight: 500; color: #8a8ea3; letter-spacing: .06em; padding: 1rem 1rem .375rem; }
