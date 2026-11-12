@@ -48,6 +48,7 @@ Rolling back = put the previous hash/tag back in the embed.
 | v1.4.3 | `17046d13e322f52b28de79238aa3b1541a90adf0` | Visitor avatar shows their initial (or a person icon); step one pulses the map and "Draw it for me" |
 | v1.4.4 | `2c4fc339c1eff47d4b91f39c1d20554ba73afd27` | Step one map prompt: solid cyan ring inside the map, under the controls (fixed an animation name clash that made it vanish) |
 | v1.4.5 | `ae754b38d3dd11a102563f9653a5d5d5fbd40328` | Step one prompt replaced by a looping cyan polygon being clicked out on the map (polygon mode); prompt comes back after Cancel; stills show the finished shape |
+| v1.4.6 | `310f3ca562481021df8c268ab4c663873bead731` | Free Draw version of the step one prompt (a loop drawn with a dot following); optional company logo on the phone from the work email via Brandfetch, switched on by data-brandfetch-id on the loader |
 
 ## Responsive behaviour
 
