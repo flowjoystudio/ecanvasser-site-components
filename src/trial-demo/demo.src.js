@@ -30,11 +30,38 @@
     try { a = JSON.parse(sessionStorage.getItem('ec_trial') || '{}') || {}; } catch (e) {}
     try {
       var p = new URLSearchParams(location.search);
-      if (p.get('preview')) { if (p.get('name')) a.firstname = p.get('name'); if (p.get('size')) a.teamSize = p.get('size'); }
+      if (p.get('preview')) { if (p.get('name')) a.firstname = p.get('name'); if (p.get('size')) a.teamSize = p.get('size'); if (p.get('email')) a.email = p.get('email'); }
     } catch (e) {}
     return a;
   }
   var A = answers();
+
+  // ---------- Company logo on the phone (Brandfetch Logo API) ----------
+  // Only runs when the loader sets data-brandfetch-id. Uses the domain of a work
+  // email; personal providers are skipped. No logo found = keep the Ecanvasser mark.
+  var BF_ID = root.getAttribute('data-brandfetch-id');
+  var FREE_MAIL = /^(gmail|googlemail|yahoo|ymail|rocketmail|hotmail|outlook|live|msn|icloud|me|mac|aol|proton|protonmail|pm|gmx|mail|email|yandex|zoho|tutanota|fastmail|hey|btinternet|btopenworld|sky|virginmedia|talktalk|ntlworld|blueyonder|tiscali|eircom|comcast|verizon|att|sbcglobal|bellsouth|cox|charter|shaw|rogers|sympatico|bigpond|optusnet|orange|wanadoo|free|laposte|web|t-online|libero|qq|163|126|naver)\./i;
+  function companyDomain(email) {
+    var m = String(email || '').trim().toLowerCase().match(/@([a-z0-9.-]+\.[a-z]{2,})$/);
+    if (!m) return '';
+    var parts = m[1].split('.');
+    var n = /\.(co|com|org|net|ac|gov|ltd|plc|me|edu)\.[a-z]{2}$/.test(m[1]) ? 3 : 2;
+    var dom = parts.slice(-n).join('.');
+    return FREE_MAIL.test(dom) ? '' : dom;
+  }
+  function paintLogo() {
+    var hi = root.querySelector('.m-hi'), old = root.querySelector('.m-logo-co');
+    if (old) old.parentNode.removeChild(old);
+    hi.classList.remove('has-co');
+    var dom = BF_ID && companyDomain(A.email);
+    if (!dom) return;
+    var img = new Image();
+    img.className = 'm-logo-co'; img.alt = ''; img.decoding = 'async';
+    img.onload = function () { hi.classList.add('has-co'); };
+    img.onerror = function () { if (img.parentNode) img.parentNode.removeChild(img); };
+    img.src = 'https://cdn.brandfetch.io/domain/' + encodeURIComponent(dom) + '/fallback/404/icon?c=' + encodeURIComponent(BF_ID);
+    hi.appendChild(img);
+  }
   function firstName() {
     var n = String(A.firstname || '').trim().split(/\s+/)[0];
     return n ? n.charAt(0).toUpperCase() + n.slice(1) : '';
@@ -312,7 +339,7 @@
     g.setAttribute('class', 'd-trace'); g.setAttribute('viewBox', '0 0 760 560');
     g.setAttribute('preserveAspectRatio', 'xMidYMid slice'); g.setAttribute('aria-hidden', 'true');
     var d = 'M' + TRACE.map(function (p) { return p.join(' '); }).join(' L') + ' Z';
-    var css = '', html = '<path class="d-trace-line" pathLength="100" d="' + d + '"/>';
+    var css = '', html = '<g class="t-poly"><path class="d-trace-line" pathLength="100" d="' + d + '"/>';
     TRACE.forEach(function (p, i) {
       var t = Math.round(i * 60 / TRACE.length); // the line reaches each point at t% of the loop
       css += '@keyframes dTracePt' + i + '{0%,' + t + '%{opacity:0;transform:scale(.3)}' + (t + 4) + '%{opacity:1;transform:scale(1)}88%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}' +
@@ -320,9 +347,30 @@
         '#ec-demo .d-trace .p' + i + ' .d{animation-name:dTracePt' + i + '}#ec-demo .d-trace .p' + i + ' .r{animation-name:dTraceTap' + i + '}';
       html += '<g class="p' + i + '" transform="translate(' + p[0] + ' ' + p[1] + ')"><circle class="r" r="9"/><circle class="d" r="6.5"/></g>';
     });
+    html += '</g>' + freeTrace();
     g.innerHTML = html;
     var st = document.createElement('style'); st.textContent = css;
     wrap.appendChild(st); wrap.insertBefore(g, $('d-modes'));
+  }
+  // Free draw version: press, drag a loose loop, let go. SMIL so the dot can
+  // follow the line; skipped (shape shown still) for reduced motion.
+  function freeTrace() {
+    var F = 'M318 212 C380 168 492 166 536 236 C572 296 528 380 446 388 C368 396 296 360 286 296 C280 258 296 228 318 212';
+    var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var T = 'dur="4.5s" repeatCount="indefinite"';
+    if (still) return '<g class="t-free"><path class="t-line" d="' + F + '"/></g>';
+    return '<g class="t-free">' +
+      '<path class="t-line" pathLength="100" d="' + F + '" stroke-dasharray="100">' +
+        '<animate attributeName="stroke-dashoffset" values="100;100;0;0" keyTimes="0;.06;.65;1" ' + T + '/>' +
+        '<animate attributeName="fill-opacity" values="0;0;.14;.14" keyTimes="0;.65;.75;1" ' + T + '/>' +
+        '<animate attributeName="opacity" values="1;1;0" keyTimes="0;.88;1" ' + T + '/></path>' +
+      '<circle class="r" cx="318" cy="212" r="9" opacity="0">' +
+        '<animate attributeName="r" values="9;9;24;24" keyTimes="0;.01;.14;1" ' + T + '/>' +
+        '<animate attributeName="opacity" values="0;.8;0;0" keyTimes="0;.01;.14;1" ' + T + '/></circle>' +
+      '<circle class="d" r="7.5" opacity="0">' +
+        '<animateMotion path="' + F + '" keyPoints="0;0;1;1" keyTimes="0;.06;.65;1" calcMode="linear" ' + T + '/>' +
+        '<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;.03;.65;.7;1" ' + T + '/></circle>' +
+      '</g>';
   }
   buildTrace();
   function prompt(on) { root.querySelector('.d-mapwrap').classList.toggle('is-prompt', on); }
@@ -706,7 +754,7 @@
   function reset() {
     gen++;
     A = answers();
-    var me = firstName(); $('d-me').textContent = me || 'You'; paintAvatars();
+    var me = firstName(); $('d-me').textContent = me || 'You'; paintAvatars(); paintLogo();
     buildMap();
     pts = []; closed = false; selected = []; stops = []; pdots = []; logged = 0; wins = 0; drawEnabled = true; choice = null;
     map.classList.add('drawable'); root.classList.remove('is-live'); prompt(true);

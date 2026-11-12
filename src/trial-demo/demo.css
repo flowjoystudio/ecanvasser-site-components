@@ -90,14 +90,18 @@
 
 /* map */
 #ec-demo .d-mapwrap { position: relative; flex: 1; min-width: 0; background: #f3f3f1; }
-/* Step one prompt: looping ghost polygon being clicked out (polygon mode only), plus "Draw it for me" */
+/* Step one prompt: a looping shape being drawn on the map (polygon clicks, or a free-draw loop), plus "Draw it for me" */
 #ec-demo .d-trace { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; display: none; }
-#ec-demo .d-mapwrap.is-prompt:not(.is-free) .d-trace { display: block; }
+#ec-demo .d-mapwrap.is-prompt .d-trace { display: block; }
+#ec-demo .d-trace .t-free, #ec-demo .d-mapwrap.is-free .d-trace .t-poly { display: none; }
+#ec-demo .d-mapwrap.is-free .d-trace .t-free { display: inline; }
+#ec-demo .d-trace .t-line { fill: var(--c); fill-opacity: .14; stroke: var(--c); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 #ec-demo .d-mapwrap.is-prompt .d-auto { animation: dCta 1.4s ease-out infinite; }
 #ec-demo .d-trace-line { fill: var(--c); fill-opacity: .14; stroke: var(--c); stroke-width: 3; stroke-linejoin: round; stroke-dasharray: 100; stroke-dashoffset: 0; animation: dTraceLine 4.5s ease-in-out infinite; }
 #ec-demo .d-trace circle { transform-box: fill-box; transform-origin: center; animation-duration: 4.5s; animation-timing-function: ease-out; animation-iteration-count: infinite; }
 #ec-demo .d-trace .d { fill: #fff; stroke: var(--c); stroke-width: 3; }
-#ec-demo .d-trace .r { fill: none; stroke: var(--c); stroke-width: 2.5; opacity: 0; }
+#ec-demo .d-trace .r { fill: none; stroke: var(--c); stroke-width: 2.5; }
+#ec-demo .d-trace .t-poly .r { opacity: 0; }
 @keyframes dTraceLine { 0% { stroke-dashoffset: 100; fill-opacity: 0; opacity: 1; } 60% { stroke-dashoffset: 0; fill-opacity: 0; } 70% { fill-opacity: .14; } 88% { opacity: 1; stroke-dashoffset: 0; } 100% { opacity: 0; stroke-dashoffset: 0; } }
 #ec-demo svg.d-map { display: block; width: 100%; height: 100%; touch-action: none; user-select: none; -webkit-user-select: none; }
 #ec-demo svg.d-map.drawable { cursor: crosshair; }
@@ -274,6 +278,9 @@
 #ec-demo .m-hi-h { font-size: 21px; font-weight: 600; letter-spacing: -.01em; color: #1b1b1f; line-height: 1.1; }
 #ec-demo .m-hi-s { font-size: 9.5px; color: #1b1b1f; margin-top: 3px; }
 #ec-demo .m-logo { width: 1.5rem; height: auto; margin: .375rem .375rem 0 0; }
+#ec-demo .m-logo-co { display: none; flex: none; width: 1.875rem; height: 1.875rem; margin: .25rem .25rem 0 0; border-radius: .4375rem; object-fit: contain; background: #fff; box-shadow: 0 0 0 1px rgba(13,19,41,.08); }
+#ec-demo .m-hi.has-co .m-logo { display: none; }
+#ec-demo .m-hi.has-co .m-logo-co { display: block; }
 #ec-demo .m-sec { display: flex; align-items: center; justify-content: space-between; margin: 1.125rem 0 .5rem; }
 #ec-demo .m-sec b { font-size: 11.5px; font-weight: 500; color: #1b1b1f; }
 #ec-demo .m-sec sup { font-size: 6.5px; vertical-align: 5px; }
