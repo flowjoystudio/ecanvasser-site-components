@@ -41,6 +41,7 @@ Rolling back = put the previous hash/tag back in the embed.
 | v1.0.0 | `64054ce2d6340eb4ce0cf27505ab43fb0f4f83f3` | First release: trial page demo (desktop layout) |
 | v1.1.0 | `9d1d3f3a9c0dcbfadfb88da054f4c398dbbca7c0` | Responsive layout, mobile still image, outcome-coloured interaction gradient |
 | v1.2.0 | `4f5e28e39e478ce90f5467d7b77767e289a4c5d3` | Final screen: soft grey, vertically centred stat cards |
+| v1.3.0 | `2e74a2033a69e429e0c7efeb87f7938a3c5b7d69` | Narrow screens: prompt + dimming when viewing the device with nothing to do |
 
 ## Responsive behaviour
 
