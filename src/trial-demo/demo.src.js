@@ -261,6 +261,7 @@
   function setMode(m) {
     if (!drawEnabled || closed) return;
     mode = m; pts = []; drawPoly();
+    root.querySelector('.d-mapwrap').classList.toggle('is-free', m === 'free');
     root.querySelectorAll('.d-mode').forEach(function (b) { var on = b.getAttribute('data-mode') === m; b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false'); });
     hint(START[m]);
   }
@@ -302,7 +303,28 @@
     drawPoly();
     if (pts.length >= 14) closePoly();
   }
-  // Step one: pulse the map and "Draw it for me" until the visitor starts
+  // Step one: until the visitor starts, a looping "ghost" shows a polygon being
+  // clicked out on the map, and "Draw it for me" pulses.
+  var TRACE = [[300, 205], [470, 182], [545, 290], [455, 382], [300, 352]];
+  function buildTrace() {
+    var wrap = root.querySelector('.d-mapwrap'), NS = 'http://www.w3.org/2000/svg';
+    var g = document.createElementNS(NS, 'svg');
+    g.setAttribute('class', 'd-trace'); g.setAttribute('viewBox', '0 0 760 560');
+    g.setAttribute('preserveAspectRatio', 'xMidYMid slice'); g.setAttribute('aria-hidden', 'true');
+    var d = 'M' + TRACE.map(function (p) { return p.join(' '); }).join(' L') + ' Z';
+    var css = '', html = '<path class="d-trace-line" pathLength="100" d="' + d + '"/>';
+    TRACE.forEach(function (p, i) {
+      var t = Math.round(i * 60 / TRACE.length); // the line reaches each point at t% of the loop
+      css += '@keyframes dTracePt' + i + '{0%,' + t + '%{opacity:0;transform:scale(.3)}' + (t + 4) + '%{opacity:1;transform:scale(1)}88%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}' +
+        '@keyframes dTraceTap' + i + '{0%,' + t + '%{opacity:0;transform:scale(.6)}' + (t + 1) + '%{opacity:.8;transform:scale(.6)}' + (t + 14) + '%,100%{opacity:0;transform:scale(2.6)}}' +
+        '#ec-demo .d-trace .p' + i + ' .d{animation-name:dTracePt' + i + '}#ec-demo .d-trace .p' + i + ' .r{animation-name:dTraceTap' + i + '}';
+      html += '<g class="p' + i + '" transform="translate(' + p[0] + ' ' + p[1] + ')"><circle class="r" r="9"/><circle class="d" r="6.5"/></g>';
+    });
+    g.innerHTML = html;
+    var st = document.createElement('style'); st.textContent = css;
+    wrap.appendChild(st); wrap.insertBefore(g, $('d-modes'));
+  }
+  buildTrace();
   function prompt(on) { root.querySelector('.d-mapwrap').classList.toggle('is-prompt', on); }
   function closePoly() {
     prompt(false);
@@ -346,7 +368,7 @@
     pts = []; closed = false; selected = []; drawPoly(); $('d-modes').classList.remove('locked');
     houses.forEach(function (h) { pinScale(h, 1); });
     $('d-count').classList.remove('show');
-    hint(START[mode]);
+    hint(START[mode]); prompt(true);
   });
 
   function animateCount(elm, to, ms, suffix) {
