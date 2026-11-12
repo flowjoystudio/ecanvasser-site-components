@@ -27,8 +27,8 @@
 @keyframes dIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 /* Stage */
-#ec-demo .d-stage { position: relative; overflow: hidden; }
-#ec-demo .d-canvas { position: absolute; left: 0; top: 0; display: flex; gap: 1.75rem; align-items: center; justify-content: center; width: 66rem; padding: 2rem 1.75rem 2.5rem; transform-origin: 0 0; }
+#ec-demo .d-stage { position: relative; overflow: visible; }  /* visible so device shadows aren't cut off */
+#ec-demo .d-canvas { position: absolute; left: 0; top: 0; display: flex; gap: 1.75rem; align-items: center; justify-content: center; width: 66rem; padding: 2rem 1.75rem 4rem; transform-origin: 0 0; }
 #ec-demo .d-views { display: none; gap: .25rem; background: #eef1f4; border-radius: 999px; padding: .25rem; margin: 0 auto .75rem; width: max-content; }
 #ec-demo .d-views button { position: relative; font: inherit; font-size: .875rem; font-weight: 600; color: #5f6368; background: none; border: 0; border-radius: 999px; padding: .4375rem 1rem; cursor: pointer; }
 #ec-demo .d-views button[aria-selected="true"] { background: #fff; color: var(--n); box-shadow: 0 1px 4px rgba(13,19,41,.15); }
@@ -39,7 +39,7 @@
 /* narrow containers: one device at a time, switched automatically by step */
 #ec-demo.is-narrow .d-views { display: flex; }
 #ec-demo .d-views button.is-next { animation: dCta 1.4s ease-out infinite; color: var(--n); }
-#ec-demo.is-narrow .d-canvas { width: auto; padding: 1.5rem 1.25rem 2.25rem; }
+#ec-demo.is-narrow .d-canvas { width: auto; padding: 1.5rem 1.25rem 3.25rem; }
 #ec-demo.is-narrow[data-show="web"] .d-phone, #ec-demo.is-narrow[data-show="phone"] .d-laptop { display: none; }
 #ec-demo.is-narrow .d-laptop { flex: none; width: 28rem; max-width: none; }
 #ec-demo.is-narrow .d-side { display: none; }
