@@ -30,7 +30,7 @@
     try { a = JSON.parse(sessionStorage.getItem('ec_trial') || '{}') || {}; } catch (e) {}
     try {
       var p = new URLSearchParams(location.search);
-      if (p.get('preview')) { if (p.get('name')) a.firstname = p.get('name'); if (p.get('size')) a.teamSize = p.get('size'); if (p.get('email')) a.email = p.get('email'); }
+      if (p.get('preview')) { if (p.get('name')) a.firstname = p.get('name'); if (p.get('size')) a.teamSize = p.get('size'); if (p.get('email')) a.email = p.get('email'); if (p.get('industry')) a.industry = p.get('industry'); }
     } catch (e) {}
     return a;
   }
@@ -87,16 +87,45 @@
   }
 
   // ---------- Outcomes (names and codes as in the app) ----------
-  // act: which action row the outcome ticks; q: answer to the storm damage question
-  var OUT = [
-    { k: 'Not home', c: '#7383af' },
-    { k: 'Not interested', c: '#ba2622' },
-    { k: 'Come back later', c: '#e87122' },
-    { k: 'Damage spotted', c: '#4f78e3', act: 'lead', q: 'Yes' },
-    { k: 'Appointment booked', c: '#225673', act: 'book', win: true, q: 'Yes' },
-    { k: 'Insurance claim filed', c: '#805fbf', act: 'lead', q: 'Yes' },
-    { k: 'Sold', c: '#357f4d', act: 'sale', win: true, q: 'Yes' }
-  ];
+  // ---------- Outcomes per industry (as set up in the new app) ----------
+  // act: follow-up action the outcome ticks (book / sale / lead); win: counts as a conversion.
+  // The question's answer flips to Yes for interested, booked and won outcomes.
+  var C = { slate: '#7383af', red: '#ba2622', orange: '#e87122', blue: '#4f78e3', navy: '#225673', purple: '#805fbf', green: '#357f4d' };
+  function o(k, c, act, win) { return { k: k, c: c, act: act, win: !!win, q: act || win ? 'Yes' : 'No' }; }
+  var NH = o('Not home', C.slate), NI = o('Not interested', C.red), CB = o('Come back later', C.orange);
+  function set7(q, third, interested, booked, won, purpleLate) {
+    // most sets: Not home, Not interested, [purple], Come back later, [blue], [navy booking], [green win]
+    var outs = purpleLate
+      ? [NH, NI, CB, interested, booked, third, won]           // roofing, home improvements, real estate
+      : [NH, NI, third, CB, interested, booked, won];
+    return { q: q, outs: outs, def: outs.indexOf(booked) };
+  }
+  var SETS = {
+    roofing: set7('Visible storm damage?', o('Insurance claim filed', C.purple, 'lead'), o('Damage spotted', C.blue, 'lead'), o('Inspection booked', C.navy, 'book', 1), o('Sold', C.green, 'sale', 1), true),
+    solar: set7('Roof faces south?', o('Already has solar', C.purple), o('Interested', C.blue, 'lead'), o('Site survey booked', C.navy, 'book', 1), o('Sold', C.green, 'sale', 1)),
+    pest: set7('Seen any pests recently?', o('Has a provider', C.purple), o('Interested', C.blue, 'lead'), o('Treatment booked', C.navy, 'book', 1), o('Signed up', C.green, 'sale', 1)),
+    broadband: set7('Interested in faster speeds?', o('In contract', C.purple), o('Interested', C.blue, 'lead'), o('Installation booked', C.navy, 'book', 1), o('Ordered', C.green, 'sale', 1)),
+    home: set7('Windows over 10 years old?', o('Quote given', C.purple), o('Interested', C.blue, 'lead'), o('Quote booked', C.navy, 'book', 1), o('Sold', C.green, 'sale', 1), true),
+    energy: set7('Bills gone up this year?', o('In contract', C.purple), o('Interested', C.blue, 'lead'), o('Callback booked', C.navy, 'book', 1), o('Switched', C.green, 'sale', 1)),
+    security: set7('Looking to upgrade security?', o('Has a system', C.purple), o('Interested', C.blue, 'lead'), o('Consultation booked', C.navy, 'book', 1), o('Sold', C.green, 'sale', 1)),
+    realestate: set7('Planning to move this year?', o('Listed elsewhere', C.purple), o('Thinking of selling', C.blue, 'lead'), o('Valuation booked', C.navy, 'book', 1), o('Listing won', C.green, 'sale', 1), true)
+  };
+  // Political: five outcomes, a named contact, a rating and a survey question, no follow-up actions
+  (function () {
+    var ans = o('Answered', '#41a660', null, 1), cab = o('Call Back', C.orange), noi = o('Not Interested', C.red), noh = o('Not Home', C.purple), ina = o('Inaccessible', C.blue);
+    SETS.political = { political: true, q: 'What do you want to see happen with the new development?', a: 'Scrap plans',
+      outs: [ans, cab, noi, noh, ina], carousel: [noh, ina, ans, cab, noi], def: 2 };
+  })();
+  // Form industry -> set. Roofing, Solar and Pest control are reachable with a preview link (&industry=Solar).
+  var INDUSTRY_SET = { 'broadband': 'broadband', 'energy': 'energy', 'home services': 'home', 'real estate': 'realestate', 'security': 'security',
+    'political & campaigns': 'political', 'roofing': 'roofing', 'solar': 'solar', 'pest control': 'pest', 'other': 'home' };
+  var SET = SETS.home, OUT = SET.outs;
+  function pickSet() {
+    SET = SETS[INDUSTRY_SET[String(A.industry || '').trim().toLowerCase()] || 'home'];
+    OUT = SET.outs;
+    TILE_ORDER = (SET.carousel || SET.outs).map(function (x) { return OUT.indexOf(x); });
+    DEF = SET.def; curTile = DEF;
+  }
   var UNKNOCKED = '#707070';
   function randCol() { return rnd() < .5 ? UNKNOCKED : OUT[Math.floor(rnd() * OUT.length)].c; }
   var PIN = '#225673', TURF = '#169265';
@@ -641,7 +670,7 @@
 
   // ---------- Step 4: knock doors ----------
   var DOORS = 3, logged = 0, wins = 0, choice = null;
-  var TILE_ORDER = [0, 1, 2, 3, 4, 5, 6], DEF = 4; // carousel in legend order; starts on Appointment booked
+  var TILE_ORDER = [0, 1, 2, 3, 4, 5, 6], DEF = 4; // set per industry in pickSet(); starts on the booking outcome
   function tint(hex, a) { var n = parseInt(hex.slice(1), 16); return 'rgba(' + (n >> 16) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')'; }
   var TW = 5.5, curTile = DEF;
   function centreTile(i) {
@@ -662,6 +691,11 @@
   }
   function openDoor() {
     phone('door'); setStep(3);
+    var door = root.querySelector('[data-view="door"]');
+    door.classList.toggle('is-political', !!SET.political);
+    $('d-ql').textContent = SET.q;
+    if (SET.political) { $('d-cav').textContent = 'AM'; $('d-cname').textContent = 'Alex Morgan'; $('d-csub').textContent = '2 contacts at this home'; }
+    else { $('d-cav').innerHTML = '<span class="mi">person_outline</span>'; icons($('d-cav')); $('d-cname').textContent = 'Homeowner'; $('d-csub').textContent = 'Add a name, phone or email'; }
     var outs = $('d-outs'); outs.innerHTML = '';
     TILE_ORDER.forEach(function (oi, ti) {
       var o = OUT[oi], b = document.createElement('button');
@@ -677,7 +711,9 @@
         root.querySelector('[data-view="door"]').style.setProperty('--ic', o.c);
         // the outcome ticks its follow-up action and answers the question, as the app does
         root.querySelectorAll('#d-acts .i-act').forEach(function (r) { r.classList.toggle('on', r.getAttribute('data-a') === o.act); });
-        $('d-qa').textContent = o.q || 'No';
+        $('d-qa').textContent = SET.political ? (o.win ? SET.a : 'Select an answer') : o.q;
+        $('d-rate').setAttribute('data-n', o.win ? 4 : 0);
+        var hs = root.querySelector('.i-house'); hs.style.background = tint(o.c, .16); hs.style.color = o.c;
         $('d-car').classList.add('picked');
         centreTile(ti);
         $('d-save').disabled = false;
@@ -770,6 +806,12 @@
     gen++;
     A = answers();
     var me = firstName(); $('d-me').textContent = me || 'You'; paintAvatars(); paintCompany();
+    pickSet();
+    // Outcome legend on the map, as in the new web app
+    $('d-legend').innerHTML = OUT.map(function (x) {
+      return '<div><span class="d-lg" style="background:' + x.c + '"><span class="mi">assignment_o</span></span>' + x.k + '</div>';
+    }).join('');
+    icons($('d-legend'));
     buildMap();
     pts = []; closed = false; selected = []; stops = []; pdots = []; logged = 0; wins = 0; drawEnabled = true; choice = null;
     map.classList.add('drawable'); root.classList.remove('is-live'); prompt(true);
@@ -816,10 +858,6 @@
     });
   });
 
-  // Outcome legend on the map, as in the new web app
-  $('d-legend').innerHTML = OUT.map(function (o) {
-    return '<div><span class="d-lg" style="background:' + o.c + '"><span class="mi">assignment_o</span></span>' + o.k + '</div>';
-  }).join('');
 
   icons();
   reset();

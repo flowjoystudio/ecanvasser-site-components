@@ -565,3 +565,15 @@
 #ec-demo .i-act { padding: .3125rem .4375rem; }
 #ec-demo .i-foot { padding-top: .375rem; }
 #ec-demo .i-steps { padding-bottom: .3125rem; }
+/* Per-industry Interaction screen: the house badge takes the outcome colour; political adds a rating, a named contact and no actions */
+#ec-demo .i-house { transition: background .25s, color .25s; }
+#ec-demo .i-rate { display: none; align-items: center; justify-content: space-between; margin-top: .625rem; font-size: 9.5px; color: #4b4f54; }
+#ec-demo .is-political .i-rate { display: flex; }
+#ec-demo .is-political .i-acts { display: none; }
+#ec-demo .i-stars { display: flex; gap: 3px; }
+#ec-demo .i-stars i { width: .6875rem; height: .6875rem; background: #c9cbce;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z'/%3E%3C/svg%3E") center / contain no-repeat; }
+#ec-demo .i-rate[data-n="1"] .i-stars i:nth-child(-n+1), #ec-demo .i-rate[data-n="2"] .i-stars i:nth-child(-n+2), #ec-demo .i-rate[data-n="3"] .i-stars i:nth-child(-n+3), #ec-demo .i-rate[data-n="4"] .i-stars i:nth-child(-n+4), #ec-demo .i-rate[data-n="5"] .i-stars i { background: #169265; }
+#ec-demo .is-political .i-owner .i-av { background: #d6ece0; color: #169265; font-size: 8.5px; font-weight: 700; }
+#ec-demo .i-q label { max-width: calc(100% - 1rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
