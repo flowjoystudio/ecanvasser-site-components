@@ -52,6 +52,7 @@ Rolling back = put the previous hash/tag back in the embed.
 | v1.4.7 | `57c2790c7d41e5c8cad6e5aff8c2b7c4ac31ef4f` | Company branding on the desktop sidebar as well as the phone: full logo for dark backgrounds, else icon + company name, else Ecanvasser |
 | v1.4.8 | `ccc0fb4380ef6486e11cf44ae0a0c7a875c13b4b` | Desktop company logo sits on a white tile (Brandfetch "dark" logos are dark-coloured and vanished on the navy sidebar) |
 | v2.0.0 | `4758dda63b7bb8c466f76136f3396d3dffd804c9` | Reskin to the new product: green icon rail, light sidebar (company name, practice team), All households bar with Browse / Cut territory, flat map with round pins and outcome legend, new Interaction screen (outcomes, homeowner, question, follow-up actions). Same flow. Click for points or hold and drag for free draw. |
+| v2.0.1 | `199ee8983c08d8408dafd087de38134a08ab30e0` | Ecanvasser brand green (#169265) instead of the darker mock-up green; hint restyled as a white card centred beside the legend (no longer cropped); house glyph centred in the pins |
 
 ## Responsive behaviour
 
