@@ -55,6 +55,7 @@ Rolling back = put the previous hash/tag back in the embed.
 | v2.0.1 | `199ee8983c08d8408dafd087de38134a08ab30e0` | Ecanvasser brand green (#169265) instead of the darker mock-up green; hint restyled as a white card centred beside the legend (no longer cropped); house glyph centred in the pins |
 | v2.0.2 | `7bbf9a77067022197524dc18628ba0d0022ec130` | Brandfetch company logos removed at the client's request (no outside calls); company name from the work email still heads the sidebar. Legend icons solid colour with a white glyph. |
 | v2.1.0 | `7351365d854106c019a33e7453050574d848876e` | Outcomes per industry (roofing, solar, pest control, broadband & fibre, home improvements, energy & utilities, home security, real estate, political). Form mapping: Energy→energy & utilities, Home Services/Other/none→home improvements; roofing, solar, pest control via &industry= in preview links. Per-set question; political has a named contact, rating and survey question instead of follow-up actions. House badge takes the outcome colour. |
+| v2.1.1 | `14eddeef0ded4f5a49d2e16f231705ea6ae530a5` | Rep no longer named: phone says "Good morning", live card says "Your rep" |
 
 ## Responsive behaviour
 
