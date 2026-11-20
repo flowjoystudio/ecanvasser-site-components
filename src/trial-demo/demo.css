@@ -1,7 +1,7 @@
 /* Ecanvasser trial page – interactive 'day in the field' demo. Everything is scoped to #ec-demo. */
 #ec-demo, #ec-demo * { box-sizing: border-box; }
 #ec-demo { color-scheme: light; }
-#ec-demo { --g: #2e7950; --g-d: #0f6e4c; --g-l: #e7f4ee; --n: #0d1329; --nav: #babccb; --bg: #f0f6f8; --c: #52BED6; --grey: #888; --mut: rgba(13,19,41,.65);
+#ec-demo { --g: #169265; --g-d: #0f6e4c; --g-l: #e7f4ee; --n: #0d1329; --nav: #babccb; --bg: #f0f6f8; --c: #52BED6; --grey: #888; --mut: rgba(13,19,41,.65);
   font-family: Inter, system-ui, -apple-system, sans-serif; color: var(--n); position: relative; }
 #ec-demo .mi { display: inline-block; width: 1em; height: 1em; flex: none; line-height: 0; overflow: hidden; color: inherit; font-size: 14px; }
 #ec-demo .mi svg { display: block; width: 100%; height: 100%; fill: currentColor; }
@@ -434,20 +434,20 @@
 }
 
 /* ================= New product look (Nov 2026): green rail, light sidebar, Interaction screen ================= */
-#ec-demo { --g: #2e7950; --g-d: #23603f; --g-l: #e1eae4; }
+#ec-demo { --g: #169265; --g-d: #0f6e4c; --g-l: #e7f4ee; }
 #ec-demo .d-app { background: #fff; font-family: Inter, system-ui, sans-serif; }
 
 /* Green icon rail */
-#ec-demo .d-rail { flex: none; width: 3.25rem; background: #368559; color: #fff; display: flex; flex-direction: column; align-items: center; padding: .625rem 0; gap: .125rem; }
+#ec-demo .d-rail { flex: none; width: 3.25rem; background: #169265; color: #fff; display: flex; flex-direction: column; align-items: center; padding: .625rem 0; gap: .125rem; }
 #ec-demo .d-logo { position: relative; width: 2.125rem; height: 2.125rem; border-radius: .5rem; background: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: .5rem; overflow: hidden; }
 #ec-demo .d-mark { width: 1.375rem; height: auto; display: block; }
-#ec-demo .d-mark path, #ec-demo .d-mark polygon { fill: #2e7950; }
+#ec-demo .d-mark path, #ec-demo .d-mark polygon { fill: #169265; }
 #ec-demo .d-logo-co { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff; }
 #ec-demo .d-logo:not(.has-co) .d-logo-co { display: none; }
 #ec-demo .d-ri { position: relative; width: 2.75rem; padding: .3125rem 0 .25rem; border-radius: .5rem; display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 7.5px; font-weight: 500; color: rgba(255,255,255,.92); }
 #ec-demo .d-ri .mi { font-size: 15px; }
 #ec-demo .d-ri.on { background: rgba(255,255,255,.22); }
-#ec-demo .d-ubadge { position: absolute; top: .125rem; right: .375rem; min-width: 1rem; padding: 0 3px; height: .75rem; border-radius: 999px; background: #fff; color: #2e7950; font-style: normal; font-size: 7.5px; font-weight: 700; line-height: .75rem; text-align: center; }
+#ec-demo .d-ubadge { position: absolute; top: .125rem; right: .375rem; min-width: 1rem; padding: 0 3px; height: .75rem; border-radius: 999px; background: #fff; color: #169265; font-style: normal; font-size: 7.5px; font-weight: 700; line-height: .75rem; text-align: center; }
 
 /* Light sidebar */
 #ec-demo .d-side { flex: none; width: 8.75rem; background: #f9f9f8; border-right: 1px solid #ededeb; padding: .875rem .5rem 0; overflow: hidden; color: #1d1f21; }
@@ -455,14 +455,14 @@
 #ec-demo .d-sh { font-size: 7.5px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: #6b6e72; padding: .625rem .375rem .25rem; }
 #ec-demo .d-si { display: flex; align-items: center; gap: .4375rem; padding: .3125rem .375rem; border-radius: .375rem; font-size: 10px; line-height: 1.2; }
 #ec-demo .d-si .mi { font-size: 12px; color: #4a4d52; }
-#ec-demo .d-si.on { background: #e1eae4; color: #2a6746; font-weight: 600; }
-#ec-demo .d-si.on .mi { color: #2a6746; }
+#ec-demo .d-si.on { background: #e7f4ee; color: #0f6e4c; font-weight: 600; }
+#ec-demo .d-si.on .mi { color: #0f6e4c; }
 #ec-demo .d-team { display: flex; align-items: center; padding: .25rem .375rem; }
 #ec-demo .d-team > * { flex: none; width: 1.125rem; height: 1.125rem; border-radius: 999px; border: 1.5px solid #f9f9f8; margin-right: -.3125rem; display: flex; align-items: center; justify-content: center; font-size: 6.5px; font-weight: 700; overflow: hidden; }
-#ec-demo .d-sf-av { background: #2e7950; color: #fff; }
+#ec-demo .d-sf-av { background: #169265; color: #fff; }
 #ec-demo .d-sf-av svg { width: 70%; height: 70%; fill: #fff; }
 #ec-demo .d-sf-av.is-initial { font-size: 8px; }
-#ec-demo .d-tav.t1 { background: #f4d9c6; color: #8a4b20; } #ec-demo .d-tav.t2 { background: #d4e8db; color: #2a6746; } #ec-demo .d-tav.t3 { background: #e3dbf3; color: #5b3f99; }
+#ec-demo .d-tav.t1 { background: #f4d9c6; color: #8a4b20; } #ec-demo .d-tav.t2 { background: #d4e8db; color: #0f6e4c; } #ec-demo .d-tav.t3 { background: #e3dbf3; color: #5b3f99; }
 #ec-demo .d-tmore { background: #e6e6e4; color: #555; font-size: 6.5px; }
 
 /* Main column: top bar + map */
@@ -476,7 +476,7 @@
 #ec-demo .d-tog { display: inline-flex; gap: 2px; margin-top: .4375rem; padding: 2px; border-radius: .5rem; background: #ececea; font-size: 9.5px; font-weight: 500; }
 #ec-demo .d-tog > span { display: inline-flex; align-items: center; gap: .3125rem; padding: .25rem .5rem; border-radius: .375rem; color: #5e6166; transition: background .2s, color .2s; }
 #ec-demo .d-tog .mi { font-size: 11px; }
-#ec-demo .d-tog > span.on { background: #fff; color: #2a6746; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+#ec-demo .d-tog > span.on { background: #fff; color: #0f6e4c; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
 #ec-demo .d-mapwrap { background: #f4f4f4; }
 
 /* Legend */
@@ -485,12 +485,21 @@
 #ec-demo .d-lg { width: .8125rem; height: .8125rem; border-radius: 3px; display: flex; align-items: center; justify-content: center; }
 #ec-demo .d-lg .mi { font-size: 9px; }
 /* keep the hint and live card clear of the legend */
-#ec-demo .d-hint { left: auto; right: .625rem; bottom: .625rem; transform: none; }
+/* Hint: a white card like the legend, centred in the space to its right */
+#ec-demo .d-hint { left: 10.75rem; right: .75rem; bottom: .625rem; width: max-content; max-width: calc(100% - 11.5rem); margin: 0 auto; transform: none;
+  background: #fff; color: #1d1f21; font-size: 10px; font-weight: 500; gap: .4375rem; padding: .25rem .25rem .25rem .5rem; border-radius: .5rem; box-shadow: 0 4px 14px -6px rgba(0,0,0,.22); }
+#ec-demo .d-hand { width: .5rem; height: .5rem; box-shadow: 0 0 0 3px rgba(82,190,214,.28); }
+#ec-demo .d-hint-or { opacity: 1; color: #8a8d91; }
+#ec-demo .d-auto { font-size: 10px; color: #fff; background: #169265; border-radius: .375rem; padding: .3125rem .5rem; display: inline-flex; align-items: center; gap: .3125rem; }
+#ec-demo .d-auto .mi { font-size: 12px; color: #fff; }
+#ec-demo .d-auto:hover { background: #0f6e4c; }
+#ec-demo .d-alt { background: #f1f1ef; color: #1d1f21; border-radius: .375rem; padding: .3125rem .5rem; }
+#ec-demo .d-hint.solo { padding-right: .625rem; }
 #ec-demo .d-livecard { top: .625rem; bottom: auto; }
 #ec-demo .d-feed { top: 4rem; }
 
 /* Count card and buttons in the new green */
-#ec-demo .d-btn-g { background: #2e7950; }
+#ec-demo .d-btn-g { background: #169265; }
 
 /* ---------- Phone ---------- */
 #ec-demo .d-pscreen { font-family: Inter, system-ui, sans-serif; }
@@ -534,18 +543,18 @@
 #ec-demo .i-act span:nth-child(2) { flex: 1; }
 #ec-demo .i-act .mi { font-size: 12px; }
 #ec-demo .i-act .i-ok { display: none; }
-#ec-demo .i-act.on { background: #e4eee8; color: #2a6746; font-weight: 600; }
+#ec-demo .i-act.on { background: #e7f4ee; color: #0f6e4c; font-weight: 600; }
 #ec-demo .i-act.on .i-ok { display: inline-block; }
 #ec-demo .i-act.on .i-go { display: none; }
 #ec-demo .i-foot { box-shadow: none; border-top: 1px solid #f1f1f2; background: #fff; }
-#ec-demo .i-save { background: #2e7950; border-radius: .5rem; }
-#ec-demo .i-dots i.done { background: #2e7950; }
-#ec-demo .i-dots i.now { background: #a9cbb6; }
+#ec-demo .i-save { background: #169265; border-radius: .5rem; }
+#ec-demo .i-dots i.done { background: #169265; }
+#ec-demo .i-dots i.now { background: #9fd9bf; }
 
 /* Narrow (one device at a time) */
 #ec-demo.is-narrow .d-rail, #ec-demo.is-narrow .d-side { display: none; }
 #ec-demo.is-narrow .d-legend { transform: scale(.85); transform-origin: 0 100%; }
-#ec-demo.is-narrow .d-hint { left: 50%; right: auto; top: .5rem; bottom: auto; transform: translateX(-50%); }
+#ec-demo.is-narrow .d-hint { left: .5rem; right: .5rem; top: .5rem; bottom: auto; max-width: calc(100% - 1rem); }
 /* fit the full Interaction screen above the Save bar */
 #ec-demo .i-wrap { padding-top: 1.875rem; }
 #ec-demo .i-house { width: 1.75rem; height: 1.75rem; margin: .375rem auto .25rem; }

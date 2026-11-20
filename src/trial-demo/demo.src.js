@@ -119,7 +119,7 @@
   ];
   var UNKNOCKED = '#707070';
   function randCol() { return rnd() < .5 ? UNKNOCKED : OUT[Math.floor(rnd() * OUT.length)].c; }
-  var PIN = '#225673', TURF = '#2e7950';
+  var PIN = '#225673', TURF = '#169265';
 
   // ---------- Seeded random so the map is the same every time ----------
   var seed = 11;
@@ -212,7 +212,7 @@
     text(lab, 690, 230, 'Kingsmoor'); text(lab, 35, 400, 'Millbrook'); text(lab, 615, 552, 'Hollins Park');
     text(lab, 270, 230, 'OLD TOWN', { 'font-size': 8.5, 'font-weight': 600, 'letter-spacing': 1.2, fill: '#6b6f76' });
     text(lab, 520, 350, 'THE COVES', { 'font-size': 8.5, 'font-weight': 600, 'letter-spacing': 1.2, fill: '#6b6f76' });
-    text(lab, 695, 320, 'Victoria Park', { 'font-size': 9.5, fill: '#2e7950', 'text-anchor': 'middle' });
+    text(lab, 695, 320, 'Victoria Park', { 'font-size': 9.5, fill: '#169265', 'text-anchor': 'middle' });
 
     gPoly = el('g', {}, map);
     gPins = el('g', {}, map);
@@ -251,7 +251,7 @@
     el('path', { d: 'M0 1.5 L-3.6 -4.2 A9.6 9.6 0 1 1 3.6 -4.2 Z', fill: 'rgba(0,0,0,.18)', transform: 'translate(0 1.2)' }, g);
     el('path', { d: 'M0 0 L-3.6 -5.6 A9.6 9.6 0 1 1 3.6 -5.6 Z', fill: '#fff' }, g);
     var body = el('circle', { cx: 0, cy: -14, r: 7.6, fill: col }, g);
-    el('path', { d: 'M-3.6 -13.4 L0 -17 L3.6 -13.4 V-10.4 Q3.6 -9.8 3 -9.8 H1.2 V-12 H-1.2 V-9.8 H-3 Q-3.6 -9.8 -3.6 -10.4 Z', fill: '#fff' }, g);
+    el('path', { d: 'M-4 -14 L0 -18 L4 -14 V-10.6 Q4 -10 3.4 -10 H1.3 V-12.4 H-1.3 V-10 H-3.4 Q-4 -10 -4 -10.6 Z', fill: '#fff' }, g);
     if (!fixed) houses.push({ x: x, y: y, g: g, body: body, col: col, street: street, num: num, sel: false });
   }
   var PIN_S = 1.45; // pins drawn at app size relative to the map
@@ -337,7 +337,7 @@
     gPoly.innerHTML = ''; gTop.innerHTML = '';
     if (!pts.length) return;
     var all = cursor && !closed ? pts.concat([cursor]) : pts;
-    if (closed || (all.length >= 3 && mode === 'poly')) el('polygon', { points: all.map(function (p) { return p.join(','); }).join(' '), fill: 'rgba(46,121,80,.22)', stroke: TURF, 'stroke-width': 2, 'stroke-linejoin': 'round' }, gPoly);
+    if (closed || (all.length >= 3 && mode === 'poly')) el('polygon', { points: all.map(function (p) { return p.join(','); }).join(' '), fill: 'rgba(22,146,101,.22)', stroke: TURF, 'stroke-width': 2, 'stroke-linejoin': 'round' }, gPoly);
     else el('polyline', { points: all.map(function (p) { return p.join(','); }).join(' '), fill: 'none', stroke: TURF, 'stroke-width': 2 }, gPoly);
     if (mode === 'free') return;
     pts.forEach(function (p, i) { el('circle', { cx: p[0], cy: p[1], r: !closed && i === 0 && pts.length >= 3 ? 8 : 6.5, fill: '#fff', stroke: TURF, 'stroke-width': 1.5 }, gTop); });
@@ -569,7 +569,7 @@
     var g = el('g', { transform: 'translate(' + x + ',' + y + ') scale(' + sc + ')' }, parent);
     el('path', { d: 'M0 0 L-3.6 -5.6 A9.6 9.6 0 1 1 3.6 -5.6 Z', fill: '#fff' }, g);
     var body = el('circle', { cx: 0, cy: -14, r: 7.6, fill: col }, g);
-    el('path', { d: 'M-3.6 -13.4 L0 -17 L3.6 -13.4 V-10.4 Q3.6 -9.8 3 -9.8 H1.2 V-12 H-1.2 V-9.8 H-3 Q-3.6 -9.8 -3.6 -10.4 Z', fill: '#fff' }, g);
+    el('path', { d: 'M-4 -14 L0 -18 L4 -14 V-10.6 Q4 -10 3.4 -10 H1.3 V-12.4 H-1.3 V-10 H-3.4 Q-4 -10 -4 -10.6 Z', fill: '#fff' }, g);
     return body;
   }
   function openRoute() {
@@ -774,7 +774,7 @@
   }
   function confetti() {
     if (reduce) return;
-    var box = $('d-confetti'), cols = ['#2e7950', '#52BED6', '#0d1329', '#f2a900'];
+    var box = $('d-confetti'), cols = ['#169265', '#52BED6', '#0d1329', '#f2a900'];
     for (var i = 0; i < 40; i++) {
       var c = document.createElement('i');
       c.style.left = (Math.random() * 100) + '%'; c.style.background = cols[i % 4];
