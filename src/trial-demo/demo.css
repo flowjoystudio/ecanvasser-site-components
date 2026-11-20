@@ -249,9 +249,6 @@
 #ec-demo .m-hi-h { font-size: 21px; font-weight: 600; letter-spacing: -.01em; color: #1b1b1f; line-height: 1.1; }
 #ec-demo .m-hi-s { font-size: 9.5px; color: #1b1b1f; margin-top: 3px; }
 #ec-demo .m-logo { width: 1.5rem; height: auto; margin: .375rem .375rem 0 0; }
-#ec-demo .m-logo-co { display: none; flex: none; width: 1.875rem; height: 1.875rem; margin: .25rem .25rem 0 0; border-radius: .4375rem; object-fit: contain; background: #fff; box-shadow: 0 0 0 1px rgba(13,19,41,.08); }
-#ec-demo .m-hi.has-co .m-logo { display: none; }
-#ec-demo .m-hi.has-co .m-logo-co { display: block; }
 #ec-demo .m-sec { display: flex; align-items: center; justify-content: space-between; margin: 1.125rem 0 .5rem; }
 #ec-demo .m-sec b { font-size: 11.5px; font-weight: 500; color: #1b1b1f; }
 #ec-demo .m-sec sup { font-size: 6.5px; vertical-align: 5px; }
@@ -442,8 +439,6 @@
 #ec-demo .d-logo { position: relative; width: 2.125rem; height: 2.125rem; border-radius: .5rem; background: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: .5rem; overflow: hidden; }
 #ec-demo .d-mark { width: 1.375rem; height: auto; display: block; }
 #ec-demo .d-mark path, #ec-demo .d-mark polygon { fill: #169265; }
-#ec-demo .d-logo-co { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff; }
-#ec-demo .d-logo:not(.has-co) .d-logo-co { display: none; }
 #ec-demo .d-ri { position: relative; width: 2.75rem; padding: .3125rem 0 .25rem; border-radius: .5rem; display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 7.5px; font-weight: 500; color: rgba(255,255,255,.92); }
 #ec-demo .d-ri .mi { font-size: 15px; }
 #ec-demo .d-ri.on { background: rgba(255,255,255,.22); }
@@ -482,7 +477,7 @@
 /* Legend */
 #ec-demo .d-legend { position: absolute; left: .625rem; bottom: .625rem; z-index: 2; background: #fff; border-radius: .5rem; padding: .375rem .5rem; box-shadow: 0 4px 14px -6px rgba(0,0,0,.18); font-size: 8.5px; color: #1d1f21; display: grid; gap: 3px; pointer-events: none; }
 #ec-demo .d-legend > div { font-weight: 500; display: flex; align-items: center; gap: .3125rem; white-space: nowrap; }
-#ec-demo .d-lg { width: .8125rem; height: .8125rem; border-radius: 3px; display: flex; align-items: center; justify-content: center; }
+#ec-demo .d-lg { width: .8125rem; height: .8125rem; border-radius: 3px; display: flex; align-items: center; justify-content: center; color: #fff; }
 #ec-demo .d-lg .mi { font-size: 9px; }
 /* keep the hint and live card clear of the legend */
 /* Hint: a white card like the legend, centred in the space to its right */

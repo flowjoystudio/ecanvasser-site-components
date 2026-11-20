@@ -36,10 +36,7 @@
   }
   var A = answers();
 
-  // ---------- Company logo on the phone (Brandfetch Logo API) ----------
-  // Only runs when the loader sets data-brandfetch-id. Uses the domain of a work
-  // email; personal providers are skipped. No logo found = keep the Ecanvasser mark.
-  var BF_ID = root.getAttribute('data-brandfetch-id');
+  // ---------- Company name (from a work email; personal providers are skipped) ----------
   var FREE_MAIL = /^(gmail|googlemail|yahoo|ymail|rocketmail|hotmail|outlook|live|msn|icloud|me|mac|aol|proton|protonmail|pm|gmx|mail|email|yandex|zoho|tutanota|fastmail|hey|btinternet|btopenworld|sky|virginmedia|talktalk|ntlworld|blueyonder|tiscali|eircom|comcast|verizon|att|sbcglobal|bellsouth|cox|charter|shaw|rogers|sympatico|bigpond|optusnet|orange|wanadoo|free|laposte|web|t-online|libero|qq|163|126|naver)\./i;
   function companyDomain(email) {
     var m = String(email || '').trim().toLowerCase().match(/@([a-z0-9.-]+\.[a-z]{2,})$/);
@@ -49,30 +46,13 @@
     var dom = parts.slice(-n).join('.');
     return FREE_MAIL.test(dom) ? '' : dom;
   }
-  function bfUrl(dom, path) { return 'https://cdn.brandfetch.io/domain/' + encodeURIComponent(dom) + '/' + path + '?c=' + encodeURIComponent(BF_ID); }
-  function loadImg(cls, src, ok, fail) {
-    var img = new Image(); img.className = cls; img.alt = ''; img.decoding = 'async';
-    img.onload = function () { ok(img); }; img.onerror = function () { fail(); }; img.src = src;
-  }
   function coName(dom) { // acme-widgets.co.uk -> Acme Widgets
     return dom.split('.')[0].split(/[-_]+/).filter(Boolean).map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
   }
-  // Branded plans show the customer's logo in both apps; mirror that here.
-  // Desktop: company name heads the sidebar and their icon fills the logo tile on
-  // the green rail. Phone: icon beside "Hi Jordan". No logo = Ecanvasser mark.
-  function paintLogo() {
-    var hi = root.querySelector('.m-hi'), tile = root.querySelector('.d-logo');
-    root.querySelectorAll('.m-logo-co, .d-logo-co').forEach(function (e) { e.parentNode.removeChild(e); });
-    hi.classList.remove('has-co'); tile.classList.remove('has-co');
-    var dom = companyDomain(A.email), run = gen;
+  // Heads the web app's sidebar, e.g. "Acme Widgets"; "Your company" otherwise
+  function paintCompany() {
+    var dom = companyDomain(A.email);
     $('d-co').textContent = dom ? coName(dom) : 'Your company';
-    if (!dom || !BF_ID) return;
-    loadImg('m-logo-co', bfUrl(dom, 'fallback/404/icon'), function (img) {
-      if (run !== gen) return;
-      hi.appendChild(img); hi.classList.add('has-co');
-      var copy = img.cloneNode(); copy.className = 'd-logo-co';
-      tile.appendChild(copy); tile.classList.add('has-co');
-    }, function () {});
   }
 
   function firstName() {
@@ -789,7 +769,7 @@
   function reset() {
     gen++;
     A = answers();
-    var me = firstName(); $('d-me').textContent = me || 'You'; paintAvatars(); paintLogo();
+    var me = firstName(); $('d-me').textContent = me || 'You'; paintAvatars(); paintCompany();
     buildMap();
     pts = []; closed = false; selected = []; stops = []; pdots = []; logged = 0; wins = 0; drawEnabled = true; choice = null;
     map.classList.add('drawable'); root.classList.remove('is-live'); prompt(true);
@@ -838,7 +818,7 @@
 
   // Outcome legend on the map, as in the new web app
   $('d-legend').innerHTML = OUT.map(function (o) {
-    return '<div><span class="d-lg" style="color:' + o.c + ';background:' + tint(o.c, .14) + '"><span class="mi">assignment_o</span></span>' + o.k + '</div>';
+    return '<div><span class="d-lg" style="background:' + o.c + '"><span class="mi">assignment_o</span></span>' + o.k + '</div>';
   }).join('');
 
   icons();
